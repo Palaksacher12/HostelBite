@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | HostelBite</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+    <style>
+        .admin-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 45px 6%;
+        }
+
+        .admin-heading {
+            margin-bottom: 30px;
+        }
+
+        .admin-heading h1 {
+            color: #102a56;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .admin-heading p {
+            color: #718096;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .admin-stat {
+            background: white;
+            border: 1px solid #e2eaf5;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(16, 42, 86, 0.05);
+        }
+
+        .admin-stat .stat-icon {
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .admin-stat h2 {
+            font-size: 30px;
+            color: #1d4ed8;
+            margin-bottom: 5px;
+        }
+
+        .admin-stat p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .admin-panel {
+            background: white;
+            border: 1px solid #e2eaf5;
+            border-radius: 16px;
+            padding: 26px;
+            margin-bottom: 26px;
+            box-shadow: 0 8px 24px rgba(16, 42, 86, 0.04);
+        }
+
+        .admin-panel h2 {
+            color: #102a56;
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .panel-description {
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .admin-form .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .admin-form label {
+            display: block;
+            font-weight: 600;
+            color: #263b59;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .admin-form input,
+        .admin-form select,
+        .admin-form textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d7e1ef;
+            border-radius: 9px;
+            background: #fbfdff;
+            font: inherit;
+            color: #263b59;
+        }
+
+        .admin-form textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .admin-form input:focus,
+        .admin-form select:focus,
+        .admin-form textarea:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #1d4ed8;
+        }
+
+        .admin-button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 20px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-button:hover {
+            background: #153e9f;
+        }
+
+        .admin-table-wrap {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2eaf5;
+            font-size: 14px;
+        }
+
+        .admin-table th {
+            color: #718096;
+            background: #f5f8fd;
+        }
+
+        .admin-table td {
+            color: #263b59;
+        }
+
+        .admin-delete {
+            border: 1px solid #fecaca;
+            background: #fff1f2;
+            color: #b91c1c;
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+        }
+
+        .admin-delete:hover {
+            background: #ffe4e6;
+        }
+
+        .admin-notice {
+            padding: 14px 16px;
+            background: #eaf2ff;
+            color: #153e9f;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .admin-empty {
+            padding: 22px 0;
+            text-align: center;
+            color: #718096;
+        }
+
+        @media (max-width: 700px) {
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form .full-width {
+                grid-column: auto;
+            }
+
+            .admin-page {
+                padding: 30px 5%;
+            }
+
+            .admin-panel {
+                padding: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-logo">HB</span>
+            <span>HostelBite</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="complaints.html">Complaints</a>
+            <a href="admin.html" class="active">Admin</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <main class="admin-page">
+
+        <section class="admin-heading">
+            <h1>Admin Dashboard</h1>
+            <p>Manage hostel meals, publish announcements, and review student concerns.</p>
+        </section>
+
+        <section class="admin-stats">
+
+            <article class="admin-stat">
+                <div class="stat-icon">🍽️</div>
+                <h2 id="adminMealCount">0</h2>
+                <p>Meals Added in This Session</p>
+            </article>
+
+            <article class="admin-stat">
+                <div class="stat-icon">💬</div>
+                <h2 id="adminFeedbackCount">0</h2>
+                <p>Student Feedback Entries</p>
+            </article>
+
+            <article class="admin-stat">
+                <div class="stat-icon">📢</div>
+                <h2 id="adminAnnouncementCount">0</h2>
+                <p>Announcements Published</p>
+            </article>
+
+        </section>
+
+        <section class="admin-panel">
+            <h2>Manage Food Menu</h2>
+            <p class="panel-description">
+                Add a meal to the demonstration menu.
+            </p>
+
+            <form class="admin-form" id="adminMealForm">
+
+                <div>
+                    <label for="mealName">Meal Name</label>
+                    <input
+                        type="text"
+                        id="mealName"
+                        placeholder="e.g. Vegetable Pulao"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="mealCategory">Meal Category</label>
+                    <select id="mealCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Breakfast">Breakfast</option>
+                        <option value="Lunch">Lunch</option>
+                        <option value="Snacks">Snacks</option>
+                        <option value="Dinner">Dinner</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="mealTime">Serving Time</label>
+                    <input
+                        type="text"
+                        id="mealTime"
+                        placeholder="e.g. 12:30 PM - 2:00 PM"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="mealDescription">Description</label>
+                    <input
+                        type="text"
+                        id="mealDescription"
+                        placeholder="Short description of the meal"
+                        required
+                    >
+                </div>
+
+                <div class="full-width">
+                    <button class="admin-button" type="submit">
+                        + Add Meal
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="admin-table-wrap" style="margin-top: 25px;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Meal</th>
+                            <th>Category</th>
+                            <th>Serving Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminMealTable">
+                        <tr>
+                            <td colspan="4" class="admin-empty">
+                                No meals added yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="admin-panel">
+            <h2>Publish Announcement</h2>
+            <p class="panel-description">
+                Share important hostel food updates with students.
+            </p>
+
+            <form class="admin-form" id="adminAnnouncementForm">
+
+                <div class="full-width">
+                    <label for="announcementTitle">Announcement Title</label>
+                    <input
+                        type="text"
+                        id="announcementTitle"
+                        placeholder="e.g. Special Dinner on Friday"
+                        required
+                    >
+                </div>
+
+                <div class="full-width">
+                    <label for="announcementMessage">Announcement Details</label>
+                    <textarea
+                        id="announcementMessage"
+                        placeholder="Enter announcement details..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="full-width">
+                    <button class="admin-button" type="submit">
+                        Publish Announcement
+                    </button>
+                </div>
+
+            </form>
+
+            <div id="adminAnnouncementList" style="margin-top: 20px;">
+                <p class="admin-empty">No announcements published yet.</p>
+            </div>
+        </section>
+
+        <section class="admin-panel">
+            <h2>Student Feedback Overview</h2>
+            <p class="panel-description">
+                Feedback submitted through the demonstration website will appear here
+                when connected to the matching JavaScript functionality.
+            </p>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Meal</th>
+                            <th>Rating</th>
+                            <th>Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminFeedbackTable">
+                        <tr>
+                            <td colspan="4" class="admin-empty">
+                                No feedback available yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="admin-notice">
+            <strong>Academic demo:</strong> This admin page is a front-end interface.
+            Data management will use browser storage in the demonstration version.
+            It is not connected to a secure server or database, and this page does not
+            provide real administrator authentication.
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 HostelBite · Software Engineering Project · Semester V</p>
+    </footer>
+
+</body>
+</html>

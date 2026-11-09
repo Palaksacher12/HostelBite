@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaints | HostelBite</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-logo">HB</span>
+            <span>HostelBite</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="complaints.html" class="active">Complaints</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <main class="container" style="padding-top: 40px; padding-bottom: 50px;">
+        <section class="section-heading">
+            <h1>Register a Complaint</h1>
+            <p>Tell us about any issue related to hostel food or mess services.</p>
+        </section>
+
+        <div class="form-card">
+            <form id="complaintForm">
+
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName"
+                           placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentId">Roll Number / Student ID</label>
+                    <input type="text" id="studentId"
+                           placeholder="Enter your roll number" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintCategory">Complaint Category</label>
+                    <select id="complaintCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Food Quality">Food Quality</option>
+                        <option value="Food Hygiene">Food Hygiene</option>
+                        <option value="Meal Timing">Meal Timing</option>
+                        <option value="Menu">Menu</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintPriority">Priority</label>
+                    <select id="complaintPriority" required>
+                        <option value="">Select priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="complaintDescription">Complaint Description</label>
+                    <textarea id="complaintDescription"
+                              placeholder="Describe your complaint"
+                              rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Submit Complaint
+                </button>
+
+                <p id="complaintMessage" role="status"
+                   aria-live="polite"></p>
+            </form>
+        </div>
+
+        <section style="margin-top: 35px;">
+            <h2>My Submitted Complaints</h2>
+            <div id="complaintList">
+                <p>Your submitted complaints will appear here.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>HostelBite | Hostel Food Management System</p>
+        <p>Software Engineering Mini Project · 2026</p>
+    </footer>
+
+</body>
+</html>

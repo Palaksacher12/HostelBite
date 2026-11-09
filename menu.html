@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu | HostelBite</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .menu-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 45px 6%;
+        }
+        .menu-heading { margin-bottom: 30px; }
+        .menu-heading h1 { color: #102a56; font-size: 32px; margin-bottom: 10px; }
+        .menu-heading p { color: #718096; line-height: 1.7; }
+        .menu-controls {
+            display: flex; gap: 15px; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; margin-bottom: 25px;
+        }
+        .menu-search {
+            flex: 1; min-width: 220px; max-width: 380px; padding: 12px 15px;
+            border: 1px solid #d7e1ef; border-radius: 10px;
+            font: inherit; background: white; color: #263b59;
+        }
+        .menu-search:focus { outline: 2px solid #bfdbfe; border-color: #1d4ed8; }
+        .menu-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+        .menu-tab {
+            padding: 10px 15px; border: 1px solid #d7e1ef;
+            border-radius: 9px; background: white; color: #52647e;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+        }
+        .menu-tab:hover, .menu-tab.active {
+            background: #1d4ed8; border-color: #1d4ed8; color: white;
+        }
+        .menu-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;
+        }
+        .menu-card {
+            display: grid; grid-template-columns: 140px minmax(0, 1fr);
+            overflow: hidden; background: white; border: 1px solid #e2eaf5;
+            border-radius: 16px; box-shadow: 0 8px 24px rgba(16,42,86,.05);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .menu-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(16,42,86,.09); }
+        .menu-image {
+            min-height: 190px; display: flex; justify-content: center;
+            align-items: center; font-size: 60px;
+            background: linear-gradient(145deg,#eaf2ff,#dbeafe);
+        }
+        .menu-image.lunch { background: linear-gradient(145deg,#fff3df,#ffe4bd); }
+        .menu-image.snacks { background: linear-gradient(145deg,#f1e9ff,#e2d4ff); }
+        .menu-image.dinner { background: linear-gradient(145deg,#e1f7ee,#c7f0df); }
+        .menu-content { padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+        .menu-tag {
+            align-self: flex-start; padding: 5px 9px; border-radius: 20px;
+            background: #eaf2ff; color: #1d4ed8; font-size: 11px;
+            font-weight: 700; margin-bottom: 10px;
+        }
+        .menu-content h2 { color: #102a56; font-size: 19px; margin-bottom: 8px; }
+        .menu-content p { color: #718096; font-size: 13px; line-height: 1.7; margin-bottom: 12px; }
+        .menu-time { color: #52647e; font-size: 12px; font-weight: 600; }
+        .menu-price { color: #1d4ed8; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .menu-status { font-size: 12px; font-weight: 700; margin-top: 8px; }
+        .menu-status.available { color: #15803d; }
+        .menu-status.unavailable { color: #b91c1c; }
+        .menu-note {
+            margin-top: 28px; padding: 16px 18px; border-radius: 10px;
+            background: #eaf2ff; color: #153e9f; font-size: 13px; line-height: 1.7;
+        }
+        .menu-empty {
+            grid-column: 1 / -1; text-align: center; padding: 35px 15px;
+            background: white; border: 1px dashed #cbd8e8;
+            border-radius: 14px; color: #718096;
+        }
+        @media (max-width: 900px) { .menu-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) {
+            .menu-page { padding: 30px 5%; }
+            .menu-heading h1 { font-size: 27px; }
+            .menu-controls { align-items: stretch; }
+            .menu-search { max-width: none; width: 100%; }
+            .menu-card { grid-template-columns: 1fr; }
+            .menu-image { min-height: 130px; }
+            .menu-content { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-logo">HB</span>
+            <span>HostelBite</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html" class="active">Menu</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="complaints.html">Complaints</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <main class="menu-page">
+        <section class="menu-heading">
+            <h1>Our Daily Food Menu</h1>
+            <p>Explore the meals planned for your hostel day. Search or filter by category.</p>
+        </section>
+
+        <section class="menu-controls" aria-label="Menu search and filters">
+            <input type="search" id="menuSearch" class="menu-search"
+                   placeholder="🔍 Search meals..." aria-label="Search meals">
+            <div class="menu-tabs">
+                <button class="menu-tab active" type="button" data-filter="All">All Meals</button>
+                <button class="menu-tab" type="button" data-filter="Breakfast">Breakfast</button>
+                <button class="menu-tab" type="button" data-filter="Lunch">Lunch</button>
+                <button class="menu-tab" type="button" data-filter="Snacks">Snacks</button>
+                <button class="menu-tab" type="button" data-filter="Dinner">Dinner</button>
+            </div>
+        </section>
+
+        <p id="menuMessage" role="status" style="color:#52647e;margin-bottom:18px;">
+            Loading meals from Firebase...
+        </p>
+        <section class="menu-grid" id="menuGrid"></section>
+        <div class="menu-empty" id="menuEmpty" hidden>
+            No meals found. Try another search or category.
+        </div>
+
+        <div class="menu-note">
+            <strong>Menu notice:</strong> Prices and availability are managed through the
+            HostelBite database. Meal descriptions and serving times may be updated later.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 HostelBite · Software Engineering Project · Semester V</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from
+            "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getFirestore, collection, getDocs }
+            from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        // Use the SAME Firebase configuration as login.html.
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbTzxOZZQ5n5wB6E-UpAbp2G-Md7Z1NNQ",
+            authDomain: "hfms-cf34c.firebaseapp.com",
+            projectId: "hfms-cf34c",
+            storageBucket: "hfms-cf34c.firebasestorage.app",
+            messagingSenderId: "732505382322",
+            appId: "1:732505382322:web:f92abc33dc2a39e10098ab",
+            measurementId: "G-XNWJHMMVN2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const menuGrid = document.getElementById("menuGrid");
+        const menuSearch = document.getElementById("menuSearch");
+        const menuTabs = [...document.querySelectorAll(".menu-tab")];
+        const menuEmpty = document.getElementById("menuEmpty");
+        const menuMessage = document.getElementById("menuMessage");
+
+        let meals = [];
+        let selectedCategory = "All";
+
+        function getMealEmoji(category) {
+            const emojis = {
+                breakfast: "🥣",
+                lunch: "🍛",
+                snacks: "🥪",
+                dinner: "🍲"
+            };
+            return emojis[String(category || "").toLowerCase()] || "🍽️";
+        }
+
+        function formatCategory(category) {
+            const value = String(category || "Other");
+            return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        }
+
+        function renderMenu() {
+            const searchText = menuSearch.value.trim().toLowerCase();
+
+            const filteredMeals = meals.filter(meal => {
+                const category = formatCategory(meal.category);
+                const matchesCategory =
+                    selectedCategory === "All" || category === selectedCategory;
+                const matchesSearch =
+                    String(meal.name || "").toLowerCase().includes(searchText) ||
+                    category.toLowerCase().includes(searchText);
+
+                return matchesCategory && matchesSearch;
+            });
+
+            menuGrid.replaceChildren();
+
+            filteredMeals.forEach(meal => {
+                const category = formatCategory(meal.category);
+                const isAvailable = meal.available === true;
+
+                const card = document.createElement("article");
+                card.className = "menu-card";
+
+                const image = document.createElement("div");
+                image.className = "menu-image " + category.toLowerCase();
+                image.textContent = getMealEmoji(category);
+
+                const content = document.createElement("div");
+                content.className = "menu-content";
+
+                const tag = document.createElement("span");
+                tag.className = "menu-tag";
+                tag.textContent = category.toUpperCase();
+
+                const heading = document.createElement("h2");
+                heading.textContent = meal.name || "Unnamed meal";
+
+                const description = document.createElement("p");
+                description.textContent = meal.description ||
+                    "Freshly prepared meal from the HostelBite menu.";
+
+                const price = document.createElement("div");
+                price.className = "menu-price";
+                price.textContent = typeof meal.price === "number"
+                    ? "₹" + meal.price
+                    : "Price not set";
+
+                const status = document.createElement("div");
+                status.className = "menu-status " +
+                    (isAvailable ? "available" : "unavailable");
+                status.textContent = isAvailable
+                    ? "● Available"
+                    : "● Currently unavailable";
+
+                content.append(tag, heading, description, price, status);
+                card.append(image, content);
+                menuGrid.append(card);
+            });
+
+            menuEmpty.hidden = filteredMeals.length !== 0;
+            if (meals.length > 0) {
+                menuMessage.textContent =
+                    `Showing ${filteredMeals.length} of ${meals.length} meals`;
+            }
+        }
+
+        menuTabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                selectedCategory = tab.dataset.filter;
+                menuTabs.forEach(button =>
+                    button.classList.toggle("active", button === tab)
+                );
+                renderMenu();
+            });
+        });
+
+        menuSearch.addEventListener("input", renderMenu);
+
+        async function loadMenu() {
+            try {
+                menuMessage.textContent = "Loading meals from Firebase...";
+                const snapshot = await getDocs(collection(db, "menu"));
+
+                meals = snapshot.docs.map(document => ({
+                    id: document.id,
+                    ...document.data()
+                }));
+
+                renderMenu();
+
+                if (meals.length === 0) {
+                    menuMessage.textContent =
+                        "No meals have been added to the database yet.";
+                }
+            } catch (error) {
+                console.error("Failed to load menu:", error);
+                menuMessage.textContent =
+                    "Unable to load meals. Check your Firebase configuration and Firestore rules.";
+                menuEmpty.hidden = false;
+                menuEmpty.textContent =
+                    "Menu could not be loaded. Open the browser console for the error details.";
+            }
+        }
+
+        loadMenu();
+    </script>
+</body>
+</html>

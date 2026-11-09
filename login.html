@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | HostelBite</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .auth-page {
+            min-height: 75vh;
+            padding: 45px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f8fd, #eaf2ff);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 960px;
+            display: grid;
+            grid-template-columns: .95fr 1.05fr;
+            background: #fff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 18px 50px rgba(16, 42, 86, .12);
+        }
+
+        .auth-visual {
+            padding: 45px 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(145deg, #1d4ed8, #102a56);
+            color: #fff;
+        }
+
+        .auth-icon { font-size: 58px; margin-bottom: 25px; }
+
+        .auth-visual h1 {
+            font-size: 31px;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .auth-visual p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #e0eaff;
+        }
+
+        .auth-benefits { display: grid; gap: 16px; margin-top: 28px; }
+
+        .auth-benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .auth-benefit span {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: rgba(255,255,255,.16);
+            border-radius: 9px;
+        }
+
+        .auth-form-side { padding: 40px 38px; }
+
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #102a56;
+            font-weight: 700;
+            font-size: 19px;
+        }
+
+        .auth-brand-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1d4ed8;
+            color: #fff;
+            border-radius: 11px;
+            font-size: 14px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 5px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            background: #f1f5fb;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #718096;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .auth-tab.active {
+            background: #fff;
+            color: #1d4ed8;
+            box-shadow: 0 2px 8px rgba(16,42,86,.08);
+        }
+
+        .auth-heading { color: #102a56; font-size: 25px; margin-bottom: 8px; }
+
+        .auth-description {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .auth-form .form-group { margin-bottom: 17px; }
+
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #263b59;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .auth-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 13px;
+            border: 1px solid #d7e1ef;
+            border-radius: 9px;
+            background: #fbfdff;
+            color: #263b59;
+            font: inherit;
+        }
+
+        .auth-form input:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #1d4ed8;
+        }
+
+        .auth-form input::placeholder { color: #a0aec0; }
+
+        .auth-submit, .google-submit {
+            width: 100%;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .auth-submit {
+            border: none;
+            background: #1d4ed8;
+            color: #fff;
+        }
+
+        .auth-submit:hover { background: #153e9f; }
+
+        .google-submit {
+            background: #fff;
+            color: #263b59;
+            border: 1px solid #d7e1ef;
+            margin-top: 12px;
+        }
+
+        .google-submit:hover { background: #f5f8fd; }
+
+        .auth-message {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 9px;
+            background: #eaf2ff;
+            color: #153e9f;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        .auth-back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .auth-back:hover { text-decoration: underline; }
+
+        @media (max-width: 760px) {
+            .auth-container { max-width: 500px; grid-template-columns: 1fr; }
+            .auth-visual { padding: 30px; }
+            .auth-visual h1 { font-size: 26px; }
+            .auth-form-side { padding: 30px 25px; }
+        }
+
+        @media (max-width: 400px) {
+            .auth-page { padding: 25px 4%; }
+            .auth-form-side { padding: 25px 19px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand">
+            <span class="brand-logo">HB</span>
+            <span>HostelBite</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="menu.html">Menu</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="complaints.html">Complaints</a>
+            <a href="admin.html">Admin</a>
+            <a href="login.html" class="login-btn active">Login</a>
+        </nav>
+    </header>
+
+    <main class="auth-page">
+        <div class="auth-container">
+            <section class="auth-visual">
+                <div class="auth-icon">🍽️</div>
+                <h1>Welcome to HostelBite</h1>
+                <p>
+                    Your hostel dining experience, made simpler. Explore daily meals,
+                    share feedback, and stay updated with food announcements.
+                </p>
+
+                <div class="auth-benefits">
+                    <div class="auth-benefit"><span>🍛</span><p>View daily and weekly menus</p></div>
+                    <div class="auth-benefit"><span>⭐</span><p>Rate meals and share feedback</p></div>
+                    <div class="auth-benefit"><span>📋</span><p>Submit and track complaints</p></div>
+                </div>
+            </section>
+
+            <section class="auth-form-side">
+                <div class="auth-brand">
+                    <span class="auth-brand-icon">HB</span>
+                    <span>HostelBite</span>
+                </div>
+
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab active" id="showLogin">Login</button>
+                    <button type="button" class="auth-tab" id="showRegister">Register</button>
+                </div>
+
+                <div id="loginSection">
+                    <h2 class="auth-heading">Welcome back!</h2>
+                    <p class="auth-description">Enter your details to access your student account.</p>
+
+                    <form class="auth-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="student@example.com"
+                                   autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword"
+                                   placeholder="Enter your password"
+                                   autocomplete="current-password" required>
+                        </div>
+
+                        <button type="submit" class="auth-submit" id="loginSubmit">
+                            Login to HostelBite
+                        </button>
+                    </form>
+
+                    <p style="text-align:right;margin-top:12px;font-size:13px;">
+                        <a href="#" id="forgotPassword" style="color:#1d4ed8;">Forgot password?</a>
+                    </p>
+                </div>
+
+                <div id="registerSection" hidden>
+                    <h2 class="auth-heading">Create an account</h2>
+                    <p class="auth-description">Register to explore HostelBite's student features.</p>
+
+                    <form class="auth-form" id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" placeholder="Enter your full name"
+                                   autocomplete="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerRoll">Student ID / Roll Number</label>
+                            <input type="text" id="registerRoll" placeholder="Enter your roll number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerEmail">Email Address</label>
+                            <input type="email" id="registerEmail" placeholder="student@example.com"
+                                   autocomplete="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerPassword">Create Password</label>
+                            <input type="password" id="registerPassword"
+                                   placeholder="At least 8 characters"
+                                   minlength="8" autocomplete="new-password" required>
+                        </div>
+
+                        <button type="submit" class="auth-submit" id="registerSubmit">
+                            Create Student Account
+                        </button>
+                    </form>
+                </div>
+
+                <button type="button" class="google-submit" id="googleSignIn">
+                    Continue with Google
+                </button>
+
+                <div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
+
+                <a href="index.html" class="auth-back">← Back to Home</a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 HostelBite · Software Engineering Project · Semester V</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+        import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup,
+            sendPasswordResetEmail,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+        import {
+            getFirestore,
+            doc,
+            setDoc,
+            getDoc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        // Replace the three placeholders with values from Firebase Console.
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbTzxOZZQ5n5wB6E-UpAbp2G-Md7Z1NNQ",
+            authDomain: "hfms-cf34c.firebaseapp.com",
+            projectId: "hfms-cf34c",
+            storageBucket: "hfms-cf34c.firebasestorage.app",
+            messagingSenderId: "732505382322",
+            appId: "1:732505382322:web:f92abc33dc2a39e10098ab",
+            measurementId: "G-XNWJHMMVN2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const showLogin = document.getElementById("showLogin");
+        const showRegister = document.getElementById("showRegister");
+        const loginSection = document.getElementById("loginSection");
+        const registerSection = document.getElementById("registerSection");
+        const authMessage = document.getElementById("authMessage");
+        const googleSignIn = document.getElementById("googleSignIn");
+
+        function displayMessage(message, isError = false) {
+            authMessage.textContent = message;
+            authMessage.style.display = "block";
+            authMessage.style.background = isError ? "#fff0f0" : "#eaf2ff";
+            authMessage.style.color = isError ? "#b42318" : "#153e9f";
+        }
+
+        function displayAuthTab(tab) {
+            const isLogin = tab === "login";
+            loginSection.hidden = !isLogin;
+            registerSection.hidden = isLogin;
+            showLogin.classList.toggle("active", isLogin);
+            showRegister.classList.toggle("active", !isLogin);
+            authMessage.style.display = "none";
+            authMessage.textContent = "";
+        }
+
+        showLogin.addEventListener("click", () => displayAuthTab("login"));
+        showRegister.addEventListener("click", () => displayAuthTab("register"));
+
+        function friendlyError(error) {
+            const messages = {
+                "auth/email-already-in-use": "This email is already registered. Please log in.",
+                "auth/invalid-email": "Please enter a valid email address.",
+                "auth/invalid-credential": "Email or password is incorrect.",
+                "auth/weak-password": "Please choose a stronger password.",
+                "auth/popup-closed-by-user": "Google sign-in was cancelled.",
+                "auth/popup-blocked": "Your browser blocked the Google sign-in popup.",
+                "auth/network-request-failed": "Network error. Check your internet connection.",
+                "auth/operation-not-allowed": "This sign-in method is not enabled in Firebase.",
+                "auth/unauthorized-domain": "This website domain is not authorized in Firebase Authentication."
+            };
+            return messages[error.code] ||
+                "Something went wrong. Please try again. (" + error.code + ")";
+        }
+
+        async function saveStudentProfile(user, extra = {}) {
+            const profileRef = doc(db, "users", user.uid);
+            const existing = await getDoc(profileRef);
+
+            const profile = {
+                name: user.displayName || "",
+                email: user.email || "",
+                ...extra
+            };
+
+            if (!existing.exists()) {
+                profile.role = "student";
+                profile.createdAt = serverTimestamp();
+            }
+
+            await setDoc(profileRef, profile, { merge: true });
+        }
+
+        document.getElementById("registerForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("registerName").value.trim();
+            const roll = document.getElementById("registerRoll").value.trim();
+            const email = document.getElementById("registerEmail").value.trim();
+            const password = document.getElementById("registerPassword").value;
+
+            if (!name || !roll) {
+                displayMessage("Please enter your full name and student ID.", true);
+                return;
+            }
+
+            const button = document.getElementById("registerSubmit");
+            button.disabled = true;
+            button.textContent = "Creating account...";
+
+            try {
+                const credential = await createUserWithEmailAndPassword(auth, email, password);
+
+                await updateProfile(credential.user, { displayName: name });
+                await saveStudentProfile(credential.user, {
+                    name,
+                    rollNumber: roll
+                });
+
+                displayMessage("Registration successful! Redirecting...");
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Registration error:", error);
+                displayMessage(friendlyError(error), true);
+            } finally {
+                button.disabled = false;
+                button.textContent = "Create Student Account";
+            }
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value;
+            const button = document.getElementById("loginSubmit");
+
+            button.disabled = true;
+            button.textContent = "Signing in...";
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Login error:", error);
+                displayMessage(friendlyError(error), true);
+            } finally {
+                button.disabled = false;
+                button.textContent = "Login to HostelBite";
+            }
+        });
+
+        googleSignIn.addEventListener("click", async () => {
+            googleSignIn.disabled = true;
+            googleSignIn.textContent = "Connecting to Google...";
+
+            try {
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
+                await saveStudentProfile(result.user);
+                window.location.href = "index.html";
+            } catch (error) {
+                console.error("Google sign-in error:", error);
+                displayMessage(friendlyError(error), true);
+            } finally {
+                googleSignIn.disabled = false;
+                googleSignIn.textContent = "Continue with Google";
+            }
+        });
+
+        document.getElementById("forgotPassword").addEventListener("click", async (event) => {
+            event.preventDefault();
+            const email = document.getElementById("loginEmail").value.trim();
+
+            if (!email) {
+                displayMessage("Enter your email address first, then click Forgot password.", true);
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                displayMessage("If an account exists for that email, a password reset email will be sent.");
+            } catch (error) {
+                console.error("Password reset error:", error);
+                displayMessage(friendlyError(error), true);
+            }
+        });
+    </script>
+</body>
+</html>
